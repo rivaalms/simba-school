@@ -75,7 +75,7 @@ const dropdownItems = computed(() => [
          slot: 'logout',
          icon: 'i-heroicons-arrow-left-start-on-rectangle-16-solid',
          click: () => {
-            console.log('logout')
+            store.showDialog('logout', 'Keluar')
          }
       }
    ]
