@@ -72,9 +72,12 @@ const popperUi = computed(() => ({
          <u-popover :ui="popperUi" overlay>
             <u-button
                color="white"
-               leading-icon="i-heroicons-funnel-16-solid"
                label="Filter"
-            ></u-button>
+            >
+               <template #leading>
+                  <u-icon name="i-octicon-filter-16"></u-icon>
+               </template>
+            </u-button>
 
             <template #panel>
                <slot name="filter"/>

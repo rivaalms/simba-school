@@ -96,11 +96,28 @@
             <template #header>
                <div class="flex items-center justify-end gap-4">
                   <u-button
-                     leading-icon="i-heroicons-plus-16-solid"
+                     icon="i-heroicons-plus-16-solid"
                   >
                      Tambah
                   </u-button>
                </div>
+            </template>
+
+            <template #actions="{ row }">
+               <u-dropdown
+                  :items="actionMenu(row)"
+               >
+                  <u-button
+                     color="gray"
+                     variant="ghost"
+                     icon="i-heroicons-ellipsis-vertical-20-solid"
+                  ></u-button>
+
+                  <template #delete="{ item }">
+                     <u-icon :name="item.icon" class="flex-shrink-0 h-4 w-4 text-red-500"></u-icon>
+                     <span class="truncate text-red-500">{{ item.label }}</span>
+                  </template>
+               </u-dropdown>
             </template>
          </data-table>
       </u-card>
@@ -116,7 +133,8 @@ const headers = computed(() => [
    { key: 'type.category.name', label: 'Kategori' },
    { key: 'year', label: 'Tahun Ajaran' },
    { key: 'status.name', label: 'Status' },
-   { key: 'updated_at', label: 'Diperbarui' }
+   { key: 'updated_at', label: 'Diperbarui' },
+   { key: 'actions' }
 ])
 
 const filter = ref<API.Request.Query.Data>({
@@ -130,6 +148,37 @@ const filter = ref<API.Request.Query.Data>({
 })
 
 const loading = ref<boolean>(false)
+
+const actionMenu = (row: Model.Data) => ([
+   [
+      {
+         label: 'Unduh file',
+         icon: 'i-heroicons-folder-arrow-down-20-solid',
+         click: () => downloadDataFile(row)
+            .then(() => useAppStore().notify('success', 'Data berhasil diunduh', 'download-data-file'))
+      },
+      {
+         label: 'Lihat detail',
+         icon: 'i-heroicons-document-magnifying-glass-20-solid',
+         click: () => navigateTo(`/data/${row.id}`)
+      },
+      {
+         label: 'Sunting data',
+         icon: 'i-heroicons-pencil-square-20-solid',
+      },
+      {
+         label: 'Sunting file',
+         icon: 'i-gravity-ui-pencil-to-square'
+      },
+   ],
+   [
+      {
+         label: 'Hapus data',
+         icon: 'i-heroicons-trash-20-solid',
+         slot: 'delete',
+      }
+   ]
+])
 
 const statusOptions = ref<Utility.SelectOption[]>([])
 const typeOptions = ref<Utility.SelectOption[]>([])
