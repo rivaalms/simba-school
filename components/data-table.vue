@@ -69,7 +69,7 @@ const popperUi = computed(() => ({
 <template>
    <div class="grid gap-4 text-sm">
       <div class="flex justify-between items-center gap-4">
-         <u-popover :ui="popperUi">
+         <u-popover :ui="popperUi" overlay>
             <u-button
                color="white"
                leading-icon="i-heroicons-funnel-16-solid"
