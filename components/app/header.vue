@@ -34,8 +34,13 @@
          <u-button
             v-for="(item, index) in navbarItems"
             :key="index"
-            variant="ghost"
+            :variant="isRouteMatch(item.to as string) ? 'soft': 'ghost'"
+            :color="isRouteMatch(item.to as string) ? 'primary' : 'gray'"
+            :to="item.to"
          >
+            <template #leading>
+               <u-icon :name="(item.icon as string)"></u-icon>
+            </template>
             {{ item.label }}
          </u-button>
       </div>
@@ -46,6 +51,11 @@
 const store = useAppStore()
 const authStore = useAuthStore()
 const user = authStore.getUser
+
+const currentRoute = computed(() => useRoute().path)
+const isRouteMatch = (route: string) => (currentRoute.value === route)
+
+const navbarItems = computed(() => useNavbarRoutes)
 
 const dropdownItems = computed(() => [
    [
@@ -63,30 +73,11 @@ const dropdownItems = computed(() => [
       {
          label: 'Log Out',
          slot: 'logout',
-         icon: 'i-heroicons-left-on-rectangle',
+         icon: 'i-heroicons-arrow-left-start-on-rectangle-16-solid',
          click: () => {
             console.log('logout')
          }
       }
    ]
-])
-
-const navbarItems = computed(() => [
-   {
-      label: 'Test',
-      to: '#'
-   },
-   {
-      label: 'Test 2',
-      to: '#'
-   },
-   {
-      label: 'Test 3',
-      to: '#'
-   },
-   {
-      label: 'Test 4',
-      to: '#'
-   },
 ])
 </script>
