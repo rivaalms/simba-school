@@ -10,8 +10,8 @@ declare namespace API {
          category?: number | string | null
          type?: number | string | null
          status?: number | string | null
-         per_page?: number | string | null
-         page?: number | string | null
+         per_page?: number | string
+         page?: number
       }
 
       type Religion = {
