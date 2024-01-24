@@ -1,6 +1,17 @@
+export async function verifyCsrfToken () : Promise <void> {
+   const apiBaseUrl = useRuntimeConfig().public.apiBaseUrl
+   const url = apiBaseUrl.replace('/api', '')
+
+   await $fetch (`${url}/sanctum/csrf-cookie`, {
+      method: 'get'
+   })
+
+   return
+}
+
 export async function login (payload: API.Request.Form.Login) : Promise <{ user: Model.User<Model.School>, token: string }> {
    const response = await $api(`/login`, {
-      method: 'get',
+      method: 'post',
       body: payload
    }) as API.Response<{ user: Model.User<Model.School>, token: string }>
 

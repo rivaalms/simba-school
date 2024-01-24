@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { login as $login, logout as $logout } from '@/utils/apis/auth'
+import { login as $login, logout as $logout, verifyCsrfToken } from '@/utils/apis/auth'
 
 type State = {
    user: Model.User | null
@@ -22,10 +22,13 @@ export const useAuthStore = defineStore('auth', {
 
    actions: {
       async login(payload: API.Request.Form.Login) {
-         await $login(payload)
-            .then(resp => {
-               this.user = resp.user
-               this.token = resp.token
+         await verifyCsrfToken()
+            .then(async () => {
+               await $login(payload)
+                  .then(resp => {
+                     this.user = resp.user
+                     this.token = resp.token
+                  })
             })
       },
 
