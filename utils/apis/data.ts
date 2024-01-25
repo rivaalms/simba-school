@@ -1,6 +1,6 @@
 export async function getData (payload: API.Request.Query.Data) : Promise <Utility.DataTable<Model.Data[]>> {
    const query = payload
-   query.school = useAuthStore().getUser?.id || null
+   query.school = useAuthStore().getUser?.userable_id || query.school
 
    const response = await $api (`/data`, {
       method: 'get',

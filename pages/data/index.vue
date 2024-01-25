@@ -148,7 +148,7 @@ const headers = computed(() => [
 ])
 
 const filter = ref<API.Request.Query.Data>({
-   school: user!.id,
+   school: user?.userable_id,
    page: 1,
    per_page: 10,
    year: null,
@@ -235,7 +235,7 @@ const onTableUpdate = async (emit: Wildcard) => {
 
 const resetFilter = async () => {
    filter.value = {
-      school: user!.id,
+      school: user?.userable_id,
       page: 1,
       per_page: 10,
       year: null,
