@@ -3,37 +3,68 @@
       <div class="place-self-start grid gap-2 w-full">
          <u-card>
             <template #header>
-               <p class="text-sm">
-                  Informasi Data
-               </p>
+               Informasi Data
             </template>
 
             <dialog-placeholder v-if="dataLoading"/>
 
-            <div v-else class="grid gap-y-2 grid-cols-3 text-sm">
-               <p class="text-gray-500">Tahun Ajaran</p>
-               <p class="col-span-2">{{ data?.year }}</p>
-               <p class="text-gray-500">Tipe</p>
-               <p class="col-span-2">{{ data?.type.name }}</p>
-               <p class="text-gray-500">Kategori</p>
-               <p class="col-span-2">{{ data?.type.category?.name }}</p>
-               <p class="text-gray-500">Status</p>
-               <span class="col-span-2">
-                  <u-badge
-                     :color="mapStatusColor(data?.data_status_id!)"
-                     variant="subtle"
+            <div v-else class="grid gap-4">
+               <div class="grid gap-y-2 grid-cols-3 text-sm">
+                  <p class="text-gray-500">Tahun Ajaran</p>
+                  <p class="col-span-2">{{ data?.year }}</p>
+                  <p class="text-gray-500">Tipe</p>
+                  <p class="col-span-2">{{ data?.type.name }}</p>
+                  <p class="text-gray-500">Kategori</p>
+                  <p class="col-span-2">{{ data?.type.category?.name }}</p>
+                  <p class="text-gray-500">Status</p>
+                  <span class="col-span-2">
+                     <u-badge
+                        :color="mapStatusColor(data?.data_status_id!)"
+                        variant="subtle"
+                     >
+                        {{ data?.status.name }}
+                     </u-badge>
+                  </span>
+               </div>
+
+               <u-divider></u-divider>
+               
+               <div class="grid gap-2">
+                  <u-button
+                     block
+                     color="emerald"
+                     icon="i-heroicons-folder-arrow-down-20-solid"
                   >
-                     {{ data?.status.name }}
-                  </u-badge>
-               </span>
+                     Unduh File
+                  </u-button>
+
+                  <u-button
+                     v-if="data?.data_status_id === 3"
+                     block
+                     variant="outline"
+                     color="amber"
+                     icon="i-heroicons-pencil-square-20-solid"
+                     @click.stop="store.showDialog('data-update', 'Sunting Informasi Data', data, () => fetchDataDetails())"
+                  >
+                     Sunting Informasi Data
+                  </u-button>
+
+                  <u-button
+                     v-if="data?.data_status_id === 3"
+                     block
+                     variant="outline"
+                     color="cyan"
+                     icon="i-heroicons-document-text-20-solid"
+                  >
+                     Perbarui File Data
+                  </u-button>
+               </div>
             </div>
          </u-card>
 
          <u-card>
             <template #header>
-               <p class="text-sm">
-                  Informasi Sekolah
-               </p>
+               Informasi Sekolah
             </template>
 
             <dialog-placeholder v-if="dataLoading"/>
@@ -56,9 +87,7 @@
          <u-card>
             <template #header>
                <div class="flex items-center justify-between">
-                  <p class="text-sm">
-                     Komentar
-                  </p>
+                  Komentar
    
                   <u-select-menu
                      v-model="commentSort"

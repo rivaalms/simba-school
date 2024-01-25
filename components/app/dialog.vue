@@ -30,10 +30,13 @@ const width = ref('sm:max-w-lg')
 
 const componentMap : Wildcard = {
    'logout': () => import('@/components/dialog/logout.vue'),
+   'data-create': () => import('@/components/dialog/form/data.vue'),
+   'data-update': () => import('@/components/dialog/form/data.vue'),
 }
 
 const widthMap : Wildcard = {
    'data-create': 'sm:max-w-2xl',
+   'data-update': 'sm:max-w-2xl',
 }
 
 const ui = computed(() => ({
