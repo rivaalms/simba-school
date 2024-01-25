@@ -37,7 +37,7 @@ const page = computed({
 
 const perPage = computed({
    get() {
-      return props.perPage
+      return props.perPage.toString()
    },
    set(value) {
       emit('update', { page: page.value, per_page: value })
