@@ -123,6 +123,18 @@
 </template>
 
 <script setup lang="ts">
+const store = useAppStore()
+store.setPageTitle('Data')
+store.setBreadcrumb([
+   {
+      label: 'Home',
+      to: '/',
+   },
+   {
+      label: 'Data',
+   }
+])
+
 const user = useAuthStore().getUser
 
 const data = ref<Utility.DataTable<Model.Data[]>>()
@@ -153,7 +165,7 @@ const actionMenu = (row: Model.Data) => ([
          label: 'Unduh file',
          icon: 'i-heroicons-folder-arrow-down-20-solid',
          click: () => downloadDataFile(row)
-            .then(() => useAppStore().notify('success', 'Data berhasil diunduh', 'download-data-file'))
+            .then(() => store.notify('success', 'Data berhasil diunduh', 'download-data-file'))
       },
       {
          label: 'Lihat detail',

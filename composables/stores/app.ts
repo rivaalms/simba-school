@@ -13,6 +13,12 @@ type State = {
       data?: any
       callback?: (() => any)
    }
+   breadcrumb: Breadcrumb[]
+}
+
+type Breadcrumb = {
+   label: string
+   to?: string
 }
 
 export const useAppStore = defineStore('app', {
@@ -30,7 +36,8 @@ export const useAppStore = defineStore('app', {
          title: '',
          data: null,
          callback: () => {}
-      }
+      },
+      breadcrumb: []
    }),
 
    getters: {
@@ -99,6 +106,10 @@ export const useAppStore = defineStore('app', {
          this.page.title = title
          this.page.backUrl = backUrl
          useHead({ title })
-      }
+      },
+
+      setBreadcrumb(items: Breadcrumb[]) {
+         this.breadcrumb = items
+      },
    }
 })
