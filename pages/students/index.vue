@@ -22,10 +22,10 @@
 
                      <u-button
                         class="justify-self-end"
-                        icon="i-heroicons-plus-20-solid"
-                        @click.stop="store.showDialog('student-create', 'Tambah Data Siswa', null, () => fetchStudents())"
+                        icon="i-heroicons-arrow-path-20-solid"
+                        @click.stop="store.showDialog('student-create', 'Perbarui Data Siswa', null, () => fetchStudents())"
                      >
-                        Tambah
+                        Perbarui
                      </u-button>
                   </div>
                </template>

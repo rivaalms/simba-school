@@ -33,13 +33,15 @@ const componentMap : Wildcard = {
    'data-create': () => import('@/components/dialog/form/data.vue'),
    'data-update': () => import('@/components/dialog/form/data.vue'),
 
-   'student-create': () => import('@/components/dialog/form/student.vue')
+   'student-create': () => import('@/components/dialog/form/student.vue'),
+   'teacher-create': () => import('@/components/dialog/form/teacher.vue'),
 }
 
 const widthMap : Wildcard = {
    'data-create': 'sm:max-w-2xl',
    'data-update': 'sm:max-w-2xl',
    'student-create': 'sm:max-w-2xl',
+   'teacher-create': 'sm:max-w-2xl',
 }
 
 const ui = computed(() => ({

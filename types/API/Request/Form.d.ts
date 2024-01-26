@@ -42,5 +42,12 @@ declare namespace API {
          religion_id: number | null
          count: number | null
       }
+
+      type Teacher = {
+         school_id: number
+         year: string | null
+         subject_id: number | null
+         count: number | null
+      }
    }
 }

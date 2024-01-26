@@ -1,7 +1,7 @@
 <template>
    <u-form
       class="grid gap-4 grid-cols-2"
-      :schema="useCreateStudentsSchema"
+      :schema="useCreateTeachersSchema"
       :state="state"
       @submit="submit"
    >
@@ -12,35 +12,19 @@
          <year-picker
             v-model="(state.year as string)"
             :disabled="loading"
-         />
+         ></year-picker>
       </u-form-group>
 
       <u-form-group
-         label="Kelas"
-         name="grade"
+         label="Mata pelajaran"
+         name="subject_id"
       >
          <u-select-menu
-            v-model="(state.grade as number)"
-            :options="gradeOptions"
-            placeholder="Pilih kelas..."
-            :disabled="loading"
-         >
-            <template #label>
-               {{ state.grade || 'Pilih kelas...' }}
-            </template>
-         </u-select-menu>
-      </u-form-group>
-
-      <u-form-group
-         label="Agama"
-         name="religion_id"
-      >
-         <u-select-menu
-            v-model="(state.religion_id as number)"
-            :options="religionOptions"
+            v-model="(state.subject_id as number)"
+            :options="subjectOptions"
             option-attribute="label"
             value-attribute="value"
-            placeholder="Pilih agama..."
+            placeholder="Pilih mata pelajaran..."
             :disabled="loading"
          ></u-select-menu>
       </u-form-group>
@@ -51,6 +35,7 @@
       >
          <u-input
             v-model="(state.count as number)"
+            :disabled="loading"
             @keypress="validateNumber"
          ></u-input>
       </u-form-group>
@@ -84,36 +69,27 @@ const store = useAppStore()
 const dayjs = useDayjs()
 
 const loading = ref<boolean>(false)
-const state = ref<API.Request.Form.Student>({
+const state = ref<API.Request.Form.Teacher>({
    school_id: authStore.getUser?.userable_id as number,
    year: `${dayjs().year()}-${dayjs().add(1, 'year').year()}`,
-   grade: null,
-   religion_id: null,
-   count: null,
+   subject_id: null,
+   count: null
 })
 
-const gradeOptions = computed(() => {
-   const schoolTypeId = authStore.getUser?.userable?.school_type_id
-   if (!schoolTypeId) return []
-
-   if (schoolTypeId === 1) {
-      return ['7', '8', '9']
-   }
-   return ['1', '2', '3', '4', '5', '6']
-})
-
-const religionOptions = ref<Utility.SelectOption[]>([])
+const subjectOptions = ref<Utility.SelectOption[]>([])
 
 onBeforeMount(async () => {
-   await getReligionOptions()
-      .then(resp => religionOptions.value = resp)
+   await getSubjectOptions()
+      .then(resp => {
+         subjectOptions.value = resp
+      })
 })
 
 const submit = async () => {
    loading.value = true
-   await createStudent(state.value)
+   await createTeacher(state.value)
       .then(resp => {
-         store.notify('success', resp, 'create-student-form-success')
+         store.notify('success', resp, 'create-teacher-form-success')
          if (store.dialog.callback) store.dialog.callback()
          store.clearDialog()
       })

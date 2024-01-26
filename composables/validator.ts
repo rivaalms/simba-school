@@ -19,3 +19,10 @@ export const useCreateStudentsSchema = yup.object({
    religion_id: yup.number().typeError('Agama wajib diisi').required('Agama wajib diisi'),
    count: yup.number().typeError('Jumlah wajib diisi').required('Jumlah wajib diisi'),
 })
+
+export const useCreateTeachersSchema = yup.object({
+   school_id: yup.string().required('Sekolah wajib diisi'),
+   year: yup.string().required('Tahun ajaran wajib diisi'),
+   subject_id: yup.number().typeError('Mata pelajaran wajib diisi').required('Mata pelajaran wajib diisi'),
+   count: yup.number().typeError('Jumlah wajib diisi').required('Jumlah wajib diisi'),
+})
