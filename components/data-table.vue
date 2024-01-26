@@ -2,10 +2,11 @@
 type Props = {
    data: Wildcard[]
    headers?: Array<{ key: string, label?: string }>
-   page: number
-   perPage: number | string
+   page?: number
+   perPage?: number | string
    loading: boolean
    total: number
+   pagination?: boolean
 }
 
 type Emits = {
@@ -22,7 +23,8 @@ const dayjs = useDayjs()
 
 const props = withDefaults(defineProps<Props>(), {
    data: () : Wildcard[] => [],
-   total: 0
+   total: 0,
+   pagination: true,
 })
 const emit = defineEmits<Emits>()
 
@@ -35,16 +37,16 @@ const page = computed({
       return props.page
    },
    set(value) {
-      emit('update', { page: value, per_page: perPage.value })
+      emit('update', { page: value!, per_page: perPage.value! })
    }
 })
 
 const perPage = computed({
    get() {
-      return props.perPage.toString()
+      return props.perPage?.toString()
    },
    set(value) {
-      emit('update', { page: page.value, per_page: value })
+      emit('update', { page: page.value!, per_page: value! })
    }
 })
 
@@ -129,7 +131,7 @@ const popperUi = computed(() => ({
          </template>
       </u-table>
 
-      <div class="flex items-center justify-between gap-4">
+      <div v-if="pagination" class="flex items-center justify-between gap-4">
          <div class="flex items-center gap-3">
             <span>Tampilkan</span>
 
@@ -142,7 +144,7 @@ const popperUi = computed(() => ({
          </div>
 
          <u-pagination
-            v-model="page"
+            v-model="(page as number)"
             :page-count="(pageCount as number)"
             :total="total"
          ></u-pagination>
