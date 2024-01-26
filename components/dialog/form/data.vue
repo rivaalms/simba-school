@@ -23,6 +23,7 @@
                :options="dataCategoryOptions"
                option-attribute="label"
                value-attribute="value"
+               placeholder="Pilih kategori..."
                :disabled="loading"
             ></u-select-menu>
          </u-form-group>
@@ -36,28 +37,14 @@
                :options="dataTypeOptions"
                option-attribute="label"
                value-attribute="value"
+               :placeholder="!!dataCategory ? 'Pilih tipe...' : 'Pilih kategori terlebih dahulu'"
                :loading="dataTypeLoading"
                :disabled="!dataCategory ||loading"
             ></u-select-menu>
          </u-form-group>
 
          <u-form-group
-            v-if="isCreate"
-            label="Status"
-            name="data_status_id"
-         >
-            <u-select-menu
-               v-model="(state.data_status_id as number)"
-               :options="statusOptions"
-               option-attribute="label"
-               value-attribute="value"
-               :disabled="loading"
-            ></u-select-menu>
-         </u-form-group>
-
-         <u-form-group
-            v-if="isCreate"
-            class="col-span-2"
+            v-if="isCreate || showFileInput"
             label="Upload File"
             name="file"
          >
@@ -65,31 +52,85 @@
                v-model="state.file"
             ></file-input>
          </u-form-group>
+
+         <div v-if="!isCreate" class="col-span-2 flex items-center gap-4">
+            <u-toggle
+               v-model="showFileInput"
+            ></u-toggle>
+
+            <span class="text-sm text-gray-700">Perbarui file data?</span>
+         </div>
+
+         <div class="col-span-2 flex items-center justify-end gap-4">
+            <u-button
+               color="gray"
+               variant="outline"
+               icon="i-heroicons-arrow-uturn-left-16-solid"
+               :disabled="loading"
+               @click.stop="store.clearDialog()"
+            >
+               Batal
+            </u-button>
+
+            <u-popover
+               v-model:open="submitPopover"
+               overlay
+            >
+               <u-button
+                  color="emerald"
+                  icon="i-heroicons-check-16-solid"
+                  :loading="loading"
+               >
+                  Simpan
+               </u-button>
+
+               <template #panel>
+                  <div class="p-4 grid gap-2">
+                     <p class="text-sm text-gray-700">
+                        Konfirmasi simpan data?
+                     </p>
+                     <u-button
+                        block
+                        color="emerald"
+                        icon="i-heroicons-check-16-solid"
+                        @click.stop="async () => {
+                           submitPopover = false
+                           await submit()
+                        }"
+                     >
+                        Simpan Data
+                     </u-button>
+                  </div>
+               </template>
+            </u-popover>
+         </div>
       </div>
    </u-form>
 </template>
 
 <script setup lang="ts">
 const store = useAppStore()
+const yearDefault = computed(() => `${(useDayjs())().year()}-${(useDayjs())().add(1, 'year').year()}`)
 const data = store.dialog.data as Model.Data
 const isCreate = computed(() => store.dialog.id.includes('create'))
 const loading = ref<boolean>(false)
 
 const state = ref<API.Request.Form.Data>({
-   school_id: isCreate.value ? null : data.school_id,
-   year: isCreate.value ? null : data.year,
+   school_id: useAuthStore().getUser!.userable_id,
+   year: isCreate.value ? yearDefault.value : data.year,
    data_type_id: isCreate.value ? null : data.data_type_id,
    data_status_id: isCreate.value ? null : data.data_status_id,
    file: undefined
 })
 
-const file = ref<any>(null)
+const showFileInput = ref<boolean>(false)
 const dataCategory = ref(isCreate.value ? null :data.type.data_category_id)
 const dataCategoryOptions = ref<Utility.SelectOption[]>([])
 const dataTypeOptions = ref<Utility.SelectOption[]>([])
 const dataTypeLoading = ref<boolean>(false)
 
 const statusOptions = ref<Utility.SelectOption[]>([])
+const submitPopover = ref<boolean>(false)
 
 watch(dataCategory, async (val, old) => {
    if (!!old) {
@@ -113,6 +154,29 @@ onBeforeMount(async () => {
 })
 
 const submit = async () => {
-   console.log(state.value)
+   loading.value = true
+   state.value.data_status_id = isCreate.value ? 1 : 4
+
+   try {
+      const resp = isCreate.value ? await createData(state.value) : await updateData(data.id, state.value)
+
+      if (!isCreate.value && !!state.value.file) {
+         const file : any = state.value.file
+         await updateDataFile(data.id, { file })
+            .then((resp) => {
+               store.notify('success', resp, 'data-form-file-success')
+            })
+      }
+
+      store.notify('success', resp, 'data-form-success')
+      if (store.dialog.callback) store.dialog.callback()
+      store.clearDialog()
+   }
+   catch (e: any) {
+      store.notify('error', e.message || e, 'data-form-error')
+   }
+   finally {
+      loading.value = false
+   }
 }
 </script>

@@ -29,9 +29,6 @@ export async function createData (payload: API.Request.Form.Data) : Promise <str
    const response = await $api (`/data`, {
       method: 'post',
       body: form,
-      headers: {
-         'Content-Type': 'multipart/form-data'
-      }
    }) as API.Response <Model.Data>
 
    return response.message!

@@ -28,12 +28,14 @@
                </div>
 
                <u-divider></u-divider>
-               
+
                <div class="grid gap-2">
                   <u-button
                      block
                      color="emerald"
+                     :loading="isDownloading"
                      icon="i-heroicons-folder-arrow-down-20-solid"
+                     @click.stop="download"
                   >
                      Unduh File
                   </u-button>
@@ -44,19 +46,9 @@
                      variant="outline"
                      color="amber"
                      icon="i-heroicons-pencil-square-20-solid"
-                     @click.stop="store.showDialog('data-update', 'Sunting Informasi Data', data, () => fetchDataDetails())"
+                     @click.stop="store.showDialog('data-update', 'Sunting Data', data, () => fetchDataDetails())"
                   >
-                     Sunting Informasi Data
-                  </u-button>
-
-                  <u-button
-                     v-if="data?.data_status_id === 3"
-                     block
-                     variant="outline"
-                     color="cyan"
-                     icon="i-heroicons-document-text-20-solid"
-                  >
-                     Perbarui File Data
+                     Sunting Data
                   </u-button>
                </div>
             </div>
@@ -88,7 +80,7 @@
             <template #header>
                <div class="flex items-center justify-between">
                   Komentar
-   
+
                   <u-select-menu
                      v-model="commentSort"
                      :options="commentSortOptions"
@@ -97,13 +89,13 @@
                   ></u-select-menu>
                </div>
             </template>
-   
+
             <dialog-placeholder v-if="commentLoading"/>
-   
+
             <template v-else>
                <div v-if="comments.length < 1" class="flex flex-col items-center gap-2 text-gray-500">
                   <u-icon name="i-tabler-message-2-x"></u-icon>
-                  
+
                   <p class="text-sm">
                      Belum ada komentar
                   </p>
@@ -157,7 +149,7 @@
                   :disabled="isCommentSending"
                   placeholder="Tulis komentar..."
                ></u-textarea>
-   
+
                <div class="flex items-center justify-end gap-2">
                   <u-button
                      icon="i-heroicons-paper-airplane-20-solid"
@@ -193,6 +185,7 @@ store.setBreadcrumb([
 const data = ref<Model.Data>()
 const comments = ref<Model.Comment[]>([])
 const dataLoading = ref<boolean>(false)
+const isDownloading = ref<boolean>(false)
 const commentLoading = ref<boolean>(false)
 const commentSort = ref<'latest' | 'oldest'>('latest')
 const commentSortOptions = computed(() => [
@@ -279,5 +272,14 @@ const sendComment = async () => {
          await fetchComments()
       })
       .finally(() => isCommentSending.value = false)
+}
+
+const download = async () => {
+   isDownloading.value = true
+   await downloadDataFile(data.value!)
+      .then(() => {
+         store.notify('success', 'Data berhasil diunduh', 'download-file-success')
+      })
+      .finally(() => isDownloading.value = false)
 }
 </script>

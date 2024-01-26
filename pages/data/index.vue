@@ -96,6 +96,7 @@
             <div class="flex items-center justify-end gap-4">
                <u-button
                   icon="i-heroicons-plus-16-solid"
+                  @click.stop="store.showDialog('data-create', 'Tambah Data', null, () => fetchData())"
                >
                   Tambah
                </u-button>
@@ -164,30 +165,26 @@ const actionMenu = (row: Model.Data) => ([
       {
          label: 'Unduh file',
          icon: 'i-heroicons-folder-arrow-down-20-solid',
+         class: 'text-emerald-500',
+         iconClass: 'text-emerald-500',
          click: () => downloadDataFile(row)
             .then(() => store.notify('success', 'Data berhasil diunduh', 'download-data-file'))
       },
       {
          label: 'Lihat detail',
+         class: 'text-primary',
+         iconClass: 'text-primary',
          icon: 'i-heroicons-document-magnifying-glass-20-solid',
          click: () => navigateTo(`/data/${row.id}`)
       },
       {
          label: 'Sunting data',
+         class: 'text-amber-500',
+         iconClass: 'text-amber-500',
          icon: 'i-heroicons-pencil-square-20-solid',
-      },
-      {
-         label: 'Sunting file',
-         icon: 'i-gravity-ui-pencil-to-square'
+         click: () => store.showDialog('data-update', 'Sunting Data', row, () => fetchData())
       },
    ],
-   [
-      {
-         label: 'Hapus data',
-         icon: 'i-heroicons-trash-20-solid',
-         slot: 'delete',
-      }
-   ]
 ])
 
 const statusOptions = ref<Utility.SelectOption[]>([])
