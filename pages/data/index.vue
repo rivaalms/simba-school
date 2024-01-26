@@ -1,10 +1,11 @@
 <template>
    <u-card>
       <data-table
-         :data="(data as Utility.DataTable<Model.Data[]>)"
+         :data="(data as Utility.DataTable<Model.Data[]>)?.data"
          :headers="headers"
          :page="(filter.page as number)"
          :per-page="(filter.per_page as number)"
+         :total="data?.total"
          :loading="loading"
          @update="onTableUpdate"
       >

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 type Props = {
-   data: Utility.DataTable <{ [key: string]: any }[]>
+   data: Wildcard[]
    headers?: Array<{ key: string, label?: string }>
    page: number
    perPage: number | string
    loading: boolean
+   total: number
 }
 
 type Emits = {
@@ -19,12 +20,15 @@ type Emits = {
 
 const dayjs = useDayjs()
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+   data: () : Wildcard[] => [],
+   total: 0
+})
 const emit = defineEmits<Emits>()
 
-const data = computed(() => props.data?.data || [])
+const data = computed(() => props.data || [])
 const pageCount = computed(() => (props.perPage as number) * 1 || 0)
-const total = computed(() => props.data?.total || 0)
+const total = computed(() => props.total || 0)
 
 const page = computed({
    get() {
