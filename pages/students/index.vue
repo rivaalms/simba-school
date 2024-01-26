@@ -8,35 +8,25 @@
                :total="(students || []).length"
                :loading="loading"
                :pagination="false"
+               :use-default-filter="false"
             >
-               <template #filter>
-                  <div class="p-4 grid gap-4">
-                     <u-form-group label="Tahun ajaran">
-                        <year-picker
-                           v-model="(filters.year as string)"
-                           :callback="() => fetchStudents()"
-                        />
-                     </u-form-group>
-
-                     <div class="flex items-center justify-end">
-                        <u-button
-                           color="black"
-                           leading-icon="i-heroicons-arrow-path-16-solid"
-                           @click.stop="resetFilter"
-                        >
-                           Atur Ulang
-                        </u-button>
-                     </div>
-                  </div>
-               </template>
-
                <template #header>
-                  <div class="flex items-center justify-end gap-4">
-                     <u-badge
-                        color="gray"
+                  <div class="flex items-center gap-4">
+                     <year-picker
+                        v-model="(filters.year as string)"
+                        :callback="() => fetchStudents()"
+                        placeholder="Tahun ajaran"
+                     />
+
+                     <div class="flex-grow"></div>
+
+                     <u-button
+                        class="justify-self-end"
+                        icon="i-heroicons-plus-20-solid"
+                        @click.stop="store.showDialog('student-create', 'Tambah Data Siswa', null, () => fetchStudents())"
                      >
-                        {{ filters.year }}
-                     </u-badge>
+                        Tambah
+                     </u-button>
                   </div>
                </template>
             </data-table>

@@ -42,6 +42,7 @@ watch(() => date.value, () => {
       v-model="date"
       year-picker
       auto-apply
+      class="!w-auto"
       :disabled="props.disabled"
    >
       <template #trigger>

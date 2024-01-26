@@ -34,5 +34,13 @@ declare namespace API {
          data_status_id: number | string | null
          file?: File | Blob
       }
+
+      type Student = {
+         school_id: number
+         year: string | null
+         grade: number | null
+         religion_id: number | null
+         count: number | null
+      }
    }
 }

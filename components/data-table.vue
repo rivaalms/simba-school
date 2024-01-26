@@ -7,6 +7,7 @@ type Props = {
    loading: boolean
    total: number
    pagination?: boolean
+   useDefaultFilter?: boolean
 }
 
 type Emits = {
@@ -25,6 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
    data: () : Wildcard[] => [],
    total: 0,
    pagination: true,
+   useDefaultFilter: true
 })
 const emit = defineEmits<Emits>()
 
@@ -75,7 +77,7 @@ const popperUi = computed(() => ({
 <template>
    <div class="grid gap-4 text-sm">
       <div class="flex justify-between items-center gap-4">
-         <u-popover :ui="popperUi" overlay>
+         <u-popover v-if="useDefaultFilter" :ui="popperUi" overlay>
             <u-button
                color="white"
                label="Filter"

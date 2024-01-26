@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { login as $login, logout as $logout, verifyCsrfToken } from '@/utils/apis/auth'
 
 type State = {
-   user: Model.User | null
+   user: Model.User<Model.School> | null
    token: string | null
 }
 
