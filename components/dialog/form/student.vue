@@ -24,7 +24,11 @@
             :options="gradeOptions"
             placeholder="Pilih kelas..."
             :disabled="loading"
-         ></u-select-menu>
+         >
+            <template #label>
+               {{ state.grade || 'Pilih kelas...' }}
+            </template>
+         </u-select-menu>
       </u-form-group>
 
       <u-form-group
@@ -75,6 +79,8 @@
 </template>
 
 <script setup lang="ts">
+import { createStudent } from '~/utils/apis/students';
+
 const authStore = useAuthStore()
 const store = useAppStore()
 const dayjs = useDayjs()
@@ -106,6 +112,13 @@ onBeforeMount(async () => {
 })
 
 const submit = async () => {
-   console.log(state.value)
+   loading.value = true
+   await createStudent(state.value)
+      .then(resp => {
+         store.notify('success', resp)
+         if (store.dialog.callback) store.dialog.callback()
+         store.clearDialog()
+      })
+      .finally(() => loading.value = false)
 }
 </script>

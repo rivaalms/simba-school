@@ -13,3 +13,11 @@ export async function getStudentsGrowth (schoolId: number, payload: API.Request.
    }) as API.Response<Utility.Growth[]>
    return response.data
 }
+
+export async function createStudent (payload: API.Request.Form.Student) : Promise <string> {
+   const response = await $api(`/school-students`, {
+      method: 'post',
+      body: payload
+   }) as API.Response <Model.Student>
+   return response.message!
+}
