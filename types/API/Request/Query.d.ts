@@ -21,5 +21,17 @@ declare namespace API {
       }
 
       type Subject = API.Request.Query.Religion
+
+      type Student = {
+         year: string
+         school_id: number | string
+      }
+
+      type Teacher = Student
+
+      type Growth = {
+         start_year: string | number
+         end_year: string | number
+      }
    }
 }

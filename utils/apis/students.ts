@@ -1,0 +1,15 @@
+export async function getStudents (payload: API.Request.Query.Student) : Promise <Model.Student[]> {
+   const response = await $api(`/school-students`, {
+      method: 'get',
+      query: payload
+   }) as API.Response <Model.Student[]>
+   return response.data
+}
+
+export async function getStudentsGrowth (schoolId: number, payload: API.Request.Query.Growth) : Promise <Utility.Growth[]> {
+   const response = await $api(`/school-students/${schoolId}/growth`, {
+      method: 'get',
+      query: payload
+   }) as API.Response<Utility.Growth[]>
+   return response.data
+}
