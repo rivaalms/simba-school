@@ -1,5 +1,5 @@
 <template>
-   <header class="py-2 grid divide-y gap-2 border-b isolate bg-white/50 backdrop-blur-md shadow">
+   <header class="py-2 grid divide-y gap-2 border-b isolate backdrop-blur-md shadow transition-all duration-500" :class="[scrollY > 30 ? 'bg-white/50' : 'bg-white']">
       <div class="px-2 flex justify-between">
          <u-link
             to="/"
@@ -36,6 +36,7 @@
             :key="index"
             :variant="isRouteMatch(item.to as string) ? 'soft': 'ghost'"
             :color="isRouteMatch(item.to as string) ? 'primary' : 'gray'"
+            :class="[scrollY > 30 ? 'bg-opacity-25 hover:bg-opacity-25' : '']"
             :to="item.to"
          >
             <template #leading>
@@ -78,4 +79,18 @@ const dropdownItems = computed(() => [
       }
    ]
 ])
+
+const scrollY = ref(0)
+
+onBeforeMount(() => {
+   document.addEventListener('scroll', (e: any) => {
+      scrollY.value = e.target.scrollingElement.scrollTop
+   })
+})
+
+onBeforeUnmount(() => {
+   document.removeEventListener('scroll', (e: any) => {
+      scrollY.value = e.target.scrollingElement.scrollTop
+   })
+})
 </script>
