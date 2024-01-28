@@ -21,3 +21,11 @@ export async function createStudent (payload: API.Request.Form.Student) : Promis
    }) as API.Response <Model.Student>
    return response.message!
 }
+
+export async function countStudent (year: string) : Promise <number> {
+   const response = await $api (`/school-students/count`, {
+      method: 'get',
+      query: { year }
+   }) as API.Response <number>
+   return response.data
+}

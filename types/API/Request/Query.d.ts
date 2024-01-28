@@ -33,5 +33,9 @@ declare namespace API {
          start_year: string | number
          end_year: string | number
       }
+
+      type DataCount = {
+         year: string
+      }
    }
 }

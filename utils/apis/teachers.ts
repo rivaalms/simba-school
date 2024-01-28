@@ -21,3 +21,11 @@ export async function createTeacher (payload: API.Request.Form.Teacher) : Promis
    }) as API.Response <Model.Teacher>
    return response.message!
 }
+
+export async function countTeachers (year: string) : Promise <number> {
+   const response = await $api (`/school-teachers/count`, {
+      method: 'get',
+      query: { year }
+   }) as API.Response <number>
+   return response.data
+}

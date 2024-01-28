@@ -1,5 +1,5 @@
 <template>
-   <div class="py-6 px-1 flex items-center justify-between gap-2">
+   <div class="py-6 flex items-center justify-between gap-2">
       <h1 class="font-medium text-lg">
          {{ store.getPageTitle }}
       </h1>
