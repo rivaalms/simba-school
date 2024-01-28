@@ -1,6 +1,6 @@
 <template>
    <div class="grid gap-4 grid-cols-6">
-      <u-card class="col-span-4 bg-primary-500">
+      <u-card class="col-span-4 bg-gradient-to-br from-blue-500 from-30% to-indigo-600">
          <div class="flex gap-4 items-center">
             <img src="/img/hello.svg" alt="Hello" class="h-96 w-auto">
 
