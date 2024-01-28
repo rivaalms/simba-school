@@ -35,6 +35,8 @@ const componentMap : Wildcard = {
 
    'student-create': () => import('@/components/dialog/form/student.vue'),
    'teacher-create': () => import('@/components/dialog/form/teacher.vue'),
+
+   'profile-update': () => import('@/components/dialog/form/profile.vue')
 }
 
 const widthMap : Wildcard = {

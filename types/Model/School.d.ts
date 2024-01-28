@@ -8,7 +8,7 @@ declare namespace Model {
       created_at?: string | null
       updated_at?: string | null
       user?: Omit <Model.User, 'created_at' | 'updated_at' | 'userable'>
-      type?: Omit <Model.School.Type, 'created_at', 'updated_at'>
+      type?: Omit <Model.School.Type, 'created_at' | 'updated_at'>
       supervisor?: Omit <Model.Supervisor, 'created_at' | 'updated_at'>
    }
 

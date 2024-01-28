@@ -26,3 +26,13 @@ export const useCreateTeachersSchema = yup.object({
    subject_id: yup.number().typeError('Mata pelajaran wajib diisi').required('Mata pelajaran wajib diisi'),
    count: yup.number().typeError('Jumlah wajib diisi').required('Jumlah wajib diisi'),
 })
+
+export const useUpdateProfileSchema = yup.object({
+   name: yup.string().required('Nama wajib diisi'),
+   email: yup.string().email('Email tidak valid').required('Email wajib diisi'),
+   password: yup.string().required('Kata sandi wajib diisi'),
+   supervisor_id: yup.string().required('Pengawas wajib diisi'),
+   school_type_id: yup.string().required('Tipe sekolah wajib diisi'),
+   principal: yup.string().notRequired(),
+   address: yup.string().notRequired(),
+})

@@ -7,7 +7,7 @@
          >
             SIMBA School
          </u-link>
-   
+
          <u-dropdown :items="dropdownItems">
             <u-button
                variant="ghost"
@@ -16,13 +16,13 @@
             >
                {{ user?.name }}
             </u-button>
-   
+
             <template #logout="{ item }">
                <u-icon
                   :name="item.icon"
                   class="text-red-500"
                ></u-icon>
-   
+
                <span class="truncate text-red-500">
                   {{ item.label }}
                </span>
@@ -64,14 +64,12 @@ const dropdownItems = computed(() => [
          avatar: {
             src: user?.profile_picture || 'https://avatars.githubusercontent.com/u/739984?v=4'
          },
-         click: () => {
-            console.log(user)
-         }
+         to: '/profile'
       }
    ],
    [
       {
-         label: 'Log Out',
+         label: 'Keluar',
          slot: 'logout',
          icon: 'i-heroicons-arrow-left-start-on-rectangle-16-solid',
          click: () => {

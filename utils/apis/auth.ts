@@ -24,6 +24,14 @@ export async function logout () : Promise <void> {
    }) as API.Response <null>
 }
 
+export async function updateProfile (id: number, payload: API.Request.Form.Profile) : Promise <Model.User<Model.School>> {
+   const response = await $api (`/user/${id}`, {
+      method: 'put',
+      body: payload
+   }) as API.Response <Model.User<Model.School>>
+   return response.data
+}
+
 export async function forgotPassword (payload: API.Request.Form.ForgotPassword) : Promise <string> {
    const response = await $api (`/forgot-password`, {
       method: 'post',
