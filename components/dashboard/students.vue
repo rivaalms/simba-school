@@ -21,9 +21,54 @@
          </u-card>
 
          <u-card class="ring-0 shadow-none">
-            <p class="text-gray-700 text-sm mb-4">
-               Perkembangan Siswa
-            </p>
+            <div class="flex items-center justify-between gap-4 mb-4">
+               <p class="text-gray-700 text-sm">
+                  Pertumbuhan Siswa
+               </p>
+
+               <div class="flex items-center gap-2">
+                  <vue-date-picker
+                     v-model="growthFilter.start_year"
+                     year-picker
+                     class="!max-w-32"
+                     auto-apply
+                     @update:model-value="fetchGrowth"
+                  >
+                     <template #trigger>
+                        <u-input
+                           :value="growthFilter.start_year"
+                           input-class="cursor-pointer"
+                           readonly
+                           icon="i-heroicons-calendar-days-16-solid"
+                           placeholder="Tahun mulai"
+                        ></u-input>
+                     </template>
+                  </vue-date-picker>
+
+                  <span class="text-sm text-gray-700">
+                     sampai
+                  </span>
+
+                  <vue-date-picker
+                     v-model="growthFilter.end_year"
+                     year-picker
+                     class="!max-w-32"
+                     auto-apply
+                     @update:model-value="fetchGrowth"
+                  >
+                     <template #trigger>
+                        <u-input
+                           :value="growthFilter.end_year"
+                           input-class="cursor-pointer"
+                           readonly
+                           icon="i-heroicons-calendar-days-16-solid"
+                           placeholder="Tahun selesai"
+                        ></u-input>
+                     </template>
+                  </vue-date-picker>
+               </div>
+            </div>
+
             <apexchart
                :options="chartOptions"
                :series="chartData"
@@ -34,6 +79,9 @@
 </template>
 
 <script setup lang="ts">
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+
 const dayjs = useDayjs()
 
 const count = ref<number>(0)
