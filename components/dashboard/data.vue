@@ -1,5 +1,5 @@
 <template>
-   <u-card>
+   <u-card class="overflow-visible">
       <div class="grid gap-4">
          <div class="flex items-center justify-between gap-4">
             <p class="text-gray-700 truncate">
@@ -52,9 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import VueDatePicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
-
 const dayjs = useDayjs()
 
 const loading = ref<boolean>(false)
