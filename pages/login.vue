@@ -3,7 +3,7 @@
       <div class="h-full bg-[url('/img/pattern-bg.svg')] flex items-center justify-center"></div>
 
       <div class="h-full flex justify-center items-center">
-         <u-card class="shadow-lg">
+         <u-card class="shadow-lg w-1/2">
             <p class="text-center text-lg font-semibold mb-4">
                Login
             </p>
@@ -19,6 +19,7 @@
                      v-model="state.email"
                      name="email"
                      placeholder="Email"
+                     autocomplete="on"
                      icon="i-heroicons-at-symbol-16-solid"
                      :disabled="loading"
                   ></u-input>
@@ -27,11 +28,14 @@
                <u-form-group name="password">
                   <u-button-group
                      orientation="horizontal"
+                     class="w-full"
                   >
                      <u-input
                         v-model="state.password"
                         name="password"
                         placeholder="Kata sandi"
+                        class="flex-1"
+                        autocomplete="on"
                         icon="i-heroicons-lock-closed-16-solid"
                         :type="showPassword ? 'text' : 'password'"
                         :disabled="loading"
