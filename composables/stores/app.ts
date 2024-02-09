@@ -21,7 +21,7 @@ type Breadcrumb = {
    to?: string
 }
 
-export const useAppStore = defineStore('app', {
+export const useAppStore = defineStore('school-app', {
    persist: true,
 
    state: () : State => ({

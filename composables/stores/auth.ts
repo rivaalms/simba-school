@@ -6,7 +6,7 @@ type State = {
    token: string | null
 }
 
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore('school-auth', {
    persist: true,
 
    state: () : State => ({
