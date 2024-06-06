@@ -138,7 +138,7 @@ const fetchCount = async () => {
    countLoading.value = true
    await countStudent(`${dayjs().year()}-${dayjs().add(1, 'year').year()}`)
       .then(resp => {
-         count.value = resp
+         count.value = resp || 0
       })
       .finally(() => countLoading.value = false)
 }
