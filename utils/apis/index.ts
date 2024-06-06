@@ -39,7 +39,7 @@ export async function $api(url: string, opts?: { [key: string]: any }) : Promise
             authStore.$reset()
             localStorage.removeItem('simba-school-user')
             localStorage.removeItem('simba-school-token')
-            navigateTo('/login')
+            await navigateTo('/login')
          }
 
          store.notify('error', `${status}: ${_data.message}`)

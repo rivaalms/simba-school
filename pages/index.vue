@@ -13,9 +13,9 @@
                   <p>
                      Selamat datang di Sistem Informasi Manajemen Berkas Administrasi Sekolah.
                   </p>
-                  <p>
+                  <!-- <p>
                      Aplikasi ini dikembangkan oleh <span class="font-semibold">Riva Almero</span>.
-                  </p>
+                  </p> -->
                </div>
 
                <div class="flex items-center gap-4">
@@ -23,7 +23,7 @@
                      color="amber"
                      size="md"
                      icon="i-heroicons-plus-16-solid"
-                     @click.stop="store.showDialog('data-create', 'Buat Data Baru', null, () => navigateTo('/data'))"
+                     @click.stop="store.showDialog('data-create', 'Buat Data Baru', null, async () => await navigateTo('/data'))"
                   >
                      Buat data baru
                   </u-button>

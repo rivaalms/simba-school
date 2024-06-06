@@ -176,7 +176,7 @@ const actionMenu = (row: Model.Data) => ([
          class: 'text-primary',
          iconClass: 'text-primary',
          icon: 'i-heroicons-document-magnifying-glass-20-solid',
-         click: () => navigateTo(`/data/${row.id}`)
+         click: async () => await navigateTo(`/data/${row.id}`)
       },
       {
          label: 'Sunting data',
